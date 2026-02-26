@@ -2,17 +2,12 @@ import re
 ALPHABET_25 = "ABCDEFGHIKLMNOPQRSTUVWXYZ"  
 
 def _normalize_letters(text: str) -> str:
-	"""Chỉ giữ A-Z, in hoa, đổi J -> I."""
+
 	text = re.sub(r"[^A-Za-z]", "", text).upper()
 	return text.replace("J", "I")
 
 def build_key_square(key: str):
-	"""Tạo bảng khóa 5x5 và map vị trí ký tự.
 
-	Trả về: (square, pos)
-	  - square: list[list[str]] kích thước 5x5
-	  - pos: dict[str, tuple[int,int]] ánh xạ ký tự -> (row, col)
-	"""
 	key = _normalize_letters(key)
 
 	seen = set()
@@ -32,12 +27,7 @@ def build_key_square(key: str):
 	return square, pos
 
 def prepare_plaintext(plaintext: str) -> list[tuple[str, str]]:
-	"""Chuẩn hóa và tách plaintext thành các cặp theo quy tắc Playfair.
 
-	- Bỏ ký tự không phải chữ cái, in hoa, J->I
-	- Nếu 2 chữ trong 1 cặp giống nhau: chèn 'X' sau chữ đầu
-	- Nếu độ dài lẻ: thêm 'X' ở cuối
-	"""
 	text = _normalize_letters(plaintext)
 
 	pairs: list[tuple[str, str]] = []
@@ -55,7 +45,7 @@ def prepare_plaintext(plaintext: str) -> list[tuple[str, str]]:
 	return pairs
 
 def encrypt_playfair(plaintext: str, key: str) -> str:
-	"""Mã hóa Playfair (gộp I/J)."""
+	
 	square, pos = build_key_square(key)
 	pairs = prepare_plaintext(plaintext)
 
